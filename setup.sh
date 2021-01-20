@@ -1,0 +1,16 @@
+npm install nodemon
+npm install react
+npm install react-dom
+npm install react-router
+npm install react-router-dom
+npm install styled-components
+npm install webpack
+npm install webpack-cli
+npm install webpack-dev-server
+npm install express
+npm install @babel/core
+npm install @babel/preset-env
+npm install @babel/preset-react
+npm install babel-loader
+npm install babel-plugin-styled-components
+npm install babel-preset-es2015
