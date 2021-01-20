@@ -14,10 +14,10 @@ class Day extends React.Component {
             time: ''
         }
 
-        this.getDateAndTime = this.getDateAndTime.bind(this);
+        this.getDate = this.getDate.bind(this);
     }
 
-    getDateAndTime() {
+    getDate() {
         var months = [
             'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
         ];
@@ -45,11 +45,11 @@ class Day extends React.Component {
             date: date,
             time: time
         });
-        setTimeout(this.getDateAndTime, 1000);
+        setTimeout(this.getDate, 1000);
     }
 
     componentWillMount() {
-        this.getDateAndTime();
+        this.getDate();
     }
 
     render() {

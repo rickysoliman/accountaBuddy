@@ -15,6 +15,15 @@ const List = styled.div`
     flex-direction: column;
 `;
 
+const Delete = styled.button`
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
 class TaskList extends React.Component {
     constructor(props) {
         super(props);
@@ -26,11 +35,28 @@ class TaskList extends React.Component {
                 'love Suzzy'
             ]
         }
+
+        this.delete = this.delete.bind(this);
+    }
+
+    delete(e) {
+        var task = e.target.id;
+        var index = this.state.tasks.indexOf(task);
+        var newState = this.state.tasks;
+        newState.splice(index, 1);
+        this.setState({
+            tasks: newState
+        });
     }
 
     render() {
         const tasks = this.state.tasks.map(task => {
-            return <Task task={task}/>
+            return (
+                <>
+                    <Task task={task}/>
+                    <Delete id={task} onClick={this.delete}>Delete</Delete>
+                </>
+            )
         });
         return (
             <>
