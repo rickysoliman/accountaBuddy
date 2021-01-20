@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TaskList from './components/TaskList.jsx';
+import Date from './components/Date.jsx';
 
 const MainView = styled.div`
     display: flex;
@@ -23,6 +24,7 @@ class App extends React.Component {
         return (
             <MainView>
                 <Title>accountaBuddy</Title>
+                <Date/>
                 <TaskList/>
             </MainView>
         )

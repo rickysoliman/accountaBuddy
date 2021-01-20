@@ -10,7 +10,7 @@ const Button = styled.button`
     text-decoration: ${props => props.complete ? 'line-through' : 'none'};
     border: 1px solid transparent;
     width: fit-content;
-    height: 50px;
+    height: fit-content;
     margin: 5px;
     &:hover {
         cursor: pointer;
