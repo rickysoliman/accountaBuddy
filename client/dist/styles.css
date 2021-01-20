@@ -1,3 +1,9 @@
 body {
-    background-color: #FFD700;
+    background-color: #A9FDAC;
+}
+
+#app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
