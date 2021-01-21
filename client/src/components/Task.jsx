@@ -18,13 +18,20 @@ const Button = styled.button`
     }
 `;
 
+const Time = styled.div`
+    font-family: Arial;
+    font-size: 20px;
+    color: white;
+`;
+
 class Task extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             task: this.props.task,
-            completed: this.props.completed
+            completed: this.props.completed,
+            time: this.props.time
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -37,7 +44,13 @@ class Task extends React.Component {
     }
 
     render() {
-        return <Button onClick={this.handleClick} completed={this.state.completed}>{this.props.task}</Button>
+        return (
+            this.state.time === null ? 
+                <Button onClick={this.handleClick} completed={this.state.completed}>{this.props.task}</Button> :
+                <>
+                    <Button onClick={this.handleClick} completed={this.state.completed}>{this.props.task}{<Time>{this.state.time}</Time>}</Button>
+                </>
+        )
     }
 }
 

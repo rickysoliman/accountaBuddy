@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Task from './Task.jsx';
+import DateAndTime from './DateAndTime.jsx';
 
 const Title = styled.h1`
     font-family: Arial;
@@ -57,16 +58,19 @@ class TaskList extends React.Component {
 
         this.state = {
             tasks: [
-                {task: 'take out the trash', completed: false, deleted: false},
-                {task: 'feed the cat', completed: false, deleted: false},
-                {task: 'love Suzzy', completed: false, deleted: false}
+                {task: 'take out the trash', completed: false, deleted: false, time: '3:00pm'},
+                {task: 'feed the cat', completed: false, deleted: false, time: '9:00am'},
+                {task: 'love Suzzy', completed: false, deleted: false, time: null}
             ],
-            newTask: ''
+            newTask: '',
+            date: '',
+            time: ''
         }
 
         this.delete = this.delete.bind(this);
         this.saveTask = this.saveTask.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.receiveDateAndTime = this.receiveDateAndTime.bind(this);
     }
 
     delete(e) {
@@ -91,10 +95,25 @@ class TaskList extends React.Component {
             return;
         }
         var input = document.getElementById('input');
+        for (let i = 0; i < this.state.tasks.length; i++) {
+            var task = this.state.tasks[i].task;
+            var deleted = this.state.tasks[i].deleted;
+            if (task === this.state.newTask && !deleted) {
+                window.alert('This item is already on your list!');
+                input.value = '';
+                return;
+            }
+        }
+        var answer = window.confirm('Does this task need to be completed at a specific time?');
+        var time;
+        if (answer) {
+            time = window.prompt('What time does this task need to be completed by?');
+        }
         input.value = '';
         var newTask = {
             completed: false,
-            deleted: false
+            deleted: false,
+            time: time === undefined ? null : time
         };
         newTask.task = this.state.newTask;
         var newState = this.state.tasks;
@@ -112,12 +131,19 @@ class TaskList extends React.Component {
         });
     }
 
+    receiveDateAndTime(date, time) {
+        this.setState({
+            date: date,
+            time: time
+        });
+    }
+
     render() {
         const tasks = this.state.tasks.map(task => {
             if (!task.deleted) {
                 return (
                     <>
-                        <Task task={task.task} completed={task.completed}/>
+                        <Task task={task.task} completed={task.completed} time={task.time}/>
                         <Delete id={task.task} onClick={this.delete}>Delete</Delete>
                     </>
                 )
@@ -125,6 +151,7 @@ class TaskList extends React.Component {
         });
         return (
             <>
+                <DateAndTime transferDateAndTime={this.receiveDateAndTime}/>
                 <Input onChange={this.handleChange} id="input" rows={5} placeholder="What do you need to do?"/>
                 <Button onClick={this.saveTask}>Save</Button>
                 <Title>Task List</Title>

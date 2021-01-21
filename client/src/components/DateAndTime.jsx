@@ -5,7 +5,7 @@ const Clock = styled.div`
     font-family: Courier;
 `;
 
-class Day extends React.Component {
+class DateAndTime extends React.Component {
     constructor(props) {
         super(props);
 
@@ -45,6 +45,7 @@ class Day extends React.Component {
             date: date,
             time: time
         });
+        this.props.transferDateAndTime(date, time);
         setTimeout(this.getDate, 1000);
     }
 
@@ -62,4 +63,4 @@ class Day extends React.Component {
     }
 }
 
-export default Day;
+export default DateAndTime;
