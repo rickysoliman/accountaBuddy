@@ -58,8 +58,8 @@ class TaskList extends React.Component {
 
         this.state = {
             tasks: [
-                {task: 'take out the trash', completed: false, deleted: false, time: '3:00pm'},
-                {task: 'feed the cat', completed: false, deleted: false, time: '9:00am'},
+                {task: 'take out the trash', completed: false, deleted: false, time: '12:19pm'},
+                {task: 'feed the cat', completed: false, deleted: false, time: null},
                 {task: 'love Suzzy', completed: false, deleted: false, time: null}
             ],
             newTask: '',
@@ -136,6 +136,24 @@ class TaskList extends React.Component {
             date: date,
             time: time
         });
+        if (this.state.date && this.state.time) {
+            for (let i = 0; i < this.state.tasks.length; i++) {
+                var task = this.state.tasks[i];
+                if (task.time) {
+                    var currentHour = Number(this.state.time.split(':')[0]);
+                    var currentMinute = Number(this.state.time.split(':')[1]);
+                    var currentSeconds = Number(this.state.time.split(':')[2].slice(0,2));
+                    var currentDaytime = this.state.time.split(':')[2].slice(3);
+                    var taskHour = Number(task.time.split(':')[0]);
+                    var taskMinute = Number(task.time.split(':')[1].slice(0,2));
+                    var taskDaytime = task.time.split(':')[1].slice(2);
+
+                    if (currentHour === taskHour && currentMinute === taskMinute && currentDaytime === taskDaytime && currentSeconds === 0) {
+                        window.alert(`It's time to ${task.task}.`);
+                    }
+                }
+            }
+        }
     }
 
     render() {

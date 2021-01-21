@@ -27,10 +27,12 @@ class DateAndTime extends React.Component {
         var year = currentDate.getFullYear();
         var hh = currentDate.getHours();
         var daytime = 'am';
-        if (hh > 12) {
-            hh -= 12;
+        if (hh >= 12) {
             daytime = 'pm';
-        }
+            if (hh > 12) {
+                hh -= 12;
+            }
+        } 
         var mm = currentDate.getMinutes();
         if (mm < 10) {
             mm = `0${mm}`;
