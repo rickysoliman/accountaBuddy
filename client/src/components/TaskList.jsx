@@ -30,9 +30,9 @@ class TaskList extends React.Component {
 
         this.state = {
             tasks: [
-                'do the dishes',
-                'clean my room',
-                'love Suzzy'
+                {task: 'take out the trash', completed: false, deleted: false},
+                {task: 'feed the cat', completed: false, deleted: false},
+                {task: 'love Suzzy', completed: false, deleted: false}
             ]
         }
 
@@ -41,9 +41,17 @@ class TaskList extends React.Component {
 
     delete(e) {
         var task = e.target.id;
-        var index = this.state.tasks.indexOf(task);
+        var index;
+        for (let i = 0; i < this.state.tasks.length; i++) {
+            var currentTask = this.state.tasks[i].task;
+            if (currentTask === task) {
+                index = i;
+                break;
+            }
+        }
+        console.log(index);
         var newState = this.state.tasks;
-        newState.splice(index, 1);
+        newState[index].deleted = true;
         this.setState({
             tasks: newState
         });
@@ -51,12 +59,14 @@ class TaskList extends React.Component {
 
     render() {
         const tasks = this.state.tasks.map(task => {
-            return (
-                <>
-                    <Task task={task}/>
-                    <Delete id={task} onClick={this.delete}>Delete</Delete>
-                </>
-            )
+            if (!task.deleted) {
+                return (
+                    <>
+                        <Task task={task.task} completed={task.completed}/>
+                        <Delete id={task.task} onClick={this.delete}>Delete</Delete>
+                    </>
+                )
+            }
         });
         return (
             <>

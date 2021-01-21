@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Button = styled.button`
-    background-color: ${props => props.complete ? '#CCDAD1' : '#07BEB8'};
+    background-color: ${props => props.completed ? '#CCDAD1' : '#07BEB8'};
     border-radius: 5px;
     font-family: Arial;
     font-size: 2em;
     color: white;
-    text-decoration: ${props => props.complete ? 'line-through' : 'none'};
+    text-decoration: ${props => props.completed ? 'line-through' : 'none'};
     border: 1px solid transparent;
     width: fit-content;
     height: fit-content;
@@ -24,7 +24,7 @@ class Task extends React.Component {
 
         this.state = {
             task: this.props.task,
-            complete: false
+            completed: this.props.completed
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -32,12 +32,12 @@ class Task extends React.Component {
 
     handleClick() {
         this.setState({
-            complete: !this.state.complete
+            completed: !this.state.completed
         });
     }
 
     render() {
-        return <Button onClick={this.handleClick} complete={this.state.complete}>{this.props.task}</Button>
+        return <Button onClick={this.handleClick} completed={this.state.completed}>{this.props.task}</Button>
     }
 }
 
