@@ -25,7 +25,7 @@ app.get('/api/tasks', (request, response) => {
 app.get('/api/tasks/:task_id', (request, response) => {
     var id = request.params.task_id;
     pool
-        .query(`SELECT * FROM tasks WHERE task_id = ${id}`)
+        .query(`SELECT * FROM tasks WHERE task_id = ${id};`)
         .then(res => {
             response.send(res.rows[0]);
         })
@@ -38,7 +38,20 @@ app.get('/api/tasks/:task_id', (request, response) => {
 app.get('/api/tasks/:task_id/toggle', (request, response) => {
     var id = request.params.task_id;
     pool
-        .query(`UPDATE tasks SET completed = NOT completed WHERE task_id = ${id}`)
+        .query(`UPDATE tasks SET completed = NOT completed WHERE task_id = ${id};`)
+        .then(res => {
+            response.send(res.rows);
+        })
+        .catch(err => {
+            response.send(err.stack);
+        });
+});
+
+// delete a task
+app.delete('/api/tasks/:task_id/delete', (request, response) => {
+    var id = request.params.task_id;
+    pool
+        .query(`DELETE FROM tasks WHERE task_id = ${id};`)
         .then(res => {
             response.send(res.rows);
         })

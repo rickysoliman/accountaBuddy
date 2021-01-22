@@ -92,19 +92,16 @@ class TaskList extends React.Component {
 
     delete(e) {
         var task = e.target.id;
-        var index;
+        var id;
         for (let i = 0; i < this.state.tasks.length; i++) {
-            var currentTask = this.state.tasks[i].task;
-            if (currentTask === task) {
-                index = i;
+            var currentTask = this.state.tasks[i];
+            if (currentTask.task === task) {
+                id = currentTask.task_id;
                 break;
             }
         }
-        var newState = this.state.tasks;
-        newState[index].deleted = true;
-        this.setState({
-            tasks: newState
-        });
+        axios.delete(`/api/tasks/${id}/delete`);
+        this.fetchTasks();
     }
 
     saveTask() {
