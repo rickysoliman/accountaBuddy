@@ -11,9 +11,14 @@ CREATE SCHEMA accountabuddy;
 CREATE TABLE tasks (
     task_id SERIAL,
     task VARCHAR(50) NOT NULL,
-    complete INT NOT NULL,
+    completed INT NOT NULL,
+    time VARCHAR(50) NOT NULL,
     PRIMARY KEY (task_id)
 );
+
+/*
+INSERT INTO tasks (task, completed, time) VALUES('do the dishes', 0, '2:58pm');
+*/
 
 SELECT * FROM tasks;
 

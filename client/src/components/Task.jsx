@@ -31,7 +31,7 @@ class Task extends React.Component {
         this.state = {
             task: this.props.task,
             completed: this.props.completed,
-            time: this.props.time
+            time: this.props.time,
         };
 
         this.handleClick = this.handleClick.bind(this);

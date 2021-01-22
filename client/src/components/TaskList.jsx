@@ -71,6 +71,7 @@ class TaskList extends React.Component {
         this.saveTask = this.saveTask.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.receiveDateAndTime = this.receiveDateAndTime.bind(this);
+        this.checkForAlerts = this.checkForAlerts.bind(this);
     }
 
     delete(e) {
@@ -131,29 +132,35 @@ class TaskList extends React.Component {
         });
     }
 
+    checkForAlerts() {
+        if (this.state.date && this.state.time) {
+            for (let i = 0; i < this.state.tasks.length; i++) {
+                var task = this.state.tasks[i];
+                if (task.deleted === false && task.completed === false) {
+                    if (task.time) {
+                        var currentHour = Number(this.state.time.split(':')[0]);
+                        var currentMinute = Number(this.state.time.split(':')[1]);
+                        var currentSecond = Number(this.state.time.split(':')[2].slice(0, 2));
+                        var currentDaytime = this.state.time.split(':')[2].slice(3);
+                        var taskHour = Number(task.time.split(':')[0]);
+                        var taskMinute = Number(task.time.split(':')[1].slice(0, 2));
+                        var taskDaytime = task.time.split(':')[1].slice(2);
+
+                        if (currentHour === taskHour && currentMinute === taskMinute && currentDaytime === taskDaytime && currentSecond === 0) {
+                            window.alert(`It's time to ${task.task}.`);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     receiveDateAndTime(date, time) {
         this.setState({
             date: date,
             time: time
         });
-        if (this.state.date && this.state.time) {
-            for (let i = 0; i < this.state.tasks.length; i++) {
-                var task = this.state.tasks[i];
-                if (task.time) {
-                    var currentHour = Number(this.state.time.split(':')[0]);
-                    var currentMinute = Number(this.state.time.split(':')[1]);
-                    var currentSeconds = Number(this.state.time.split(':')[2].slice(0,2));
-                    var currentDaytime = this.state.time.split(':')[2].slice(3);
-                    var taskHour = Number(task.time.split(':')[0]);
-                    var taskMinute = Number(task.time.split(':')[1].slice(0,2));
-                    var taskDaytime = task.time.split(':')[1].slice(2);
-
-                    if (currentHour === taskHour && currentMinute === taskMinute && currentDaytime === taskDaytime && currentSeconds === 0) {
-                        window.alert(`It's time to ${task.task}.`);
-                    }
-                }
-            }
-        }
+        this.checkForAlerts();
     }
 
     render() {
@@ -161,7 +168,7 @@ class TaskList extends React.Component {
             if (!task.deleted) {
                 return (
                     <>
-                        <Task task={task.task} completed={task.completed} time={task.time}/>
+                        <Task id={task.task} task={task.task} completed={task.completed} time={task.time}/>
                         <Delete id={task.task} onClick={this.delete}>Delete</Delete>
                     </>
                 )
