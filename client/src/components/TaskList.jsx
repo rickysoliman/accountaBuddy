@@ -149,7 +149,8 @@ class TaskList extends React.Component {
         if (this.state.date && this.state.time) {
             for (let i = 0; i < this.state.tasks.length; i++) {
                 var task = this.state.tasks[i];
-                if (task.deleted === false && task.completed === false) {
+                // console.log(task);
+                if (task.completed === false) {
                     if (task.time) {
                         var currentHour = Number(this.state.time.split(':')[0]);
                         var currentMinute = Number(this.state.time.split(':')[1]);
@@ -158,6 +159,10 @@ class TaskList extends React.Component {
                         var taskHour = Number(task.time.split(':')[0]);
                         var taskMinute = Number(task.time.split(':')[1].slice(0, 2));
                         var taskDaytime = task.time.split(':')[1].slice(2);
+
+                        console.log(`current time: ${currentHour}:${currentMinute}:${currentSecond} ${currentDaytime}`);
+                        console.log(`task time: ${taskHour}:${taskMinute}${taskDaytime}`);
+                        console.log(task.completed);
 
                         if (currentHour === taskHour && currentMinute === taskMinute && currentDaytime === taskDaytime && currentSecond === 0) {
                             window.alert(`It's time to ${task.task}.`);
@@ -184,7 +189,13 @@ class TaskList extends React.Component {
                 id = current.task_id;
             }
         }
-        axios.get(`/api/tasks/${id}/toggle`);
+        axios.get(`/api/tasks/${id}/toggle`)
+            .then(res => {
+                this.fetchTasks();
+            })
+            .catch(err => {
+                console.log(err.stack);
+            });
     }
 
     render() {
