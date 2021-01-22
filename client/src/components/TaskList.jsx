@@ -160,10 +160,6 @@ class TaskList extends React.Component {
                         var taskMinute = Number(task.time.split(':')[1].slice(0, 2));
                         var taskDaytime = task.time.split(':')[1].slice(2);
 
-                        console.log(`current time: ${currentHour}:${currentMinute}:${currentSecond} ${currentDaytime}`);
-                        console.log(`task time: ${taskHour}:${taskMinute}${taskDaytime}`);
-                        console.log(task.completed);
-
                         if (currentHour === taskHour && currentMinute === taskMinute && currentDaytime === taskDaytime && currentSecond === 0) {
                             window.alert(`It's time to ${task.task}.`);
                         }
