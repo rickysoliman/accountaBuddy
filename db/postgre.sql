@@ -23,5 +23,5 @@ INSERT INTO tasks (task, completed, time) VALUES('do the dishes', 0, '2:58pm');
 SELECT * FROM tasks;
 
 /*
-\i '/Users/rickymarasigan/Desktop/accountaBuddy/postgre.sql';
+\i '/Users/rickymarasigan/Desktop/accountaBuddy/db/postgre.sql';
 */
