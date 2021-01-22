@@ -12,7 +12,7 @@ CREATE TABLE tasks (
     task_id SERIAL,
     task VARCHAR(50) NOT NULL,
     completed INT NOT NULL,
-    time VARCHAR(50) NOT NULL,
+    time VARCHAR(50),
     PRIMARY KEY (task_id)
 );
 

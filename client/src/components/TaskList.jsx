@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import Task from './Task.jsx';
 import DateAndTime from './DateAndTime.jsx';
 
@@ -57,21 +58,35 @@ class TaskList extends React.Component {
         super(props);
 
         this.state = {
-            tasks: [
-                {task: 'take out the trash', completed: false, deleted: false, time: '12:19pm'},
-                {task: 'feed the cat', completed: false, deleted: false, time: null},
-                {task: 'love Suzzy', completed: false, deleted: false, time: null}
-            ],
+            tasks: [],
             newTask: '',
             date: '',
             time: ''
         }
 
+        this.fetchTasks = this.fetchTasks.bind(this);
         this.delete = this.delete.bind(this);
         this.saveTask = this.saveTask.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.receiveDateAndTime = this.receiveDateAndTime.bind(this);
         this.checkForAlerts = this.checkForAlerts.bind(this);
+    }
+
+    componentWillMount() {
+        this.fetchTasks();
+    }
+
+    fetchTasks() {
+        axios.get('/api/tasks')
+            .then(res => {
+                var data = res.data;
+                this.setState({
+                    tasks: data
+                });
+            })
+            .catch(err => {
+                console.log(err.stack);
+            });
     }
 
     delete(e) {
