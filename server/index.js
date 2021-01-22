@@ -21,9 +21,8 @@ app.get('/api/tasks', (request, response) => {
 });
 
 app.post('/api/tasks', (request, response) => {
-    console.log(request.body);
     const queryString = `INSERT INTO tasks (task, completed, time) VALUES($1, $2, $3);`
-    const queryValues = ['do the dishes', 0, '2:58pm'];
+    const queryValues = [request.body.task, request.body.completed, request.body.time];
     pool
         .query(queryString, queryValues)
         .then(res => {

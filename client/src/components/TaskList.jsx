@@ -127,17 +127,26 @@ class TaskList extends React.Component {
         }
         input.value = '';
         var newTask = {
-            completed: false,
-            deleted: false,
+            completed: 0,
+            task: this.state.newTask,
             time: time === undefined ? null : time
         };
-        newTask.task = this.state.newTask;
-        var newState = this.state.tasks;
-        newState.push(newTask);
-        this.setState({
-            tasks: newState,
-            newTask: ''
-        });
+        axios.post('/api/tasks', newTask)
+            .then(res => {
+                this.fetchTasks();
+                // res.end();
+            })
+            .catch(err => {
+                console.log(err.stack);
+            });
+
+        // newTask.task = this.state.newTask;
+        // var newState = this.state.tasks;
+        // newState.push(newTask);
+        // this.setState({
+        //     tasks: newState,
+        //     newTask: ''
+        // });
     }
 
     handleChange(e) {
