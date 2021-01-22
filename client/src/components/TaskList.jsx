@@ -149,7 +149,6 @@ class TaskList extends React.Component {
         if (this.state.date && this.state.time) {
             for (let i = 0; i < this.state.tasks.length; i++) {
                 var task = this.state.tasks[i];
-                // console.log(task);
                 if (task.completed === false) {
                     if (task.time) {
                         var currentHour = Number(this.state.time.split(':')[0]);
