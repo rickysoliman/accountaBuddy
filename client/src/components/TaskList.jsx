@@ -70,6 +70,7 @@ class TaskList extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.receiveDateAndTime = this.receiveDateAndTime.bind(this);
         this.checkForAlerts = this.checkForAlerts.bind(this);
+        this.completeTask = this.completeTask.bind(this);
     }
 
     componentWillMount() {
@@ -134,19 +135,10 @@ class TaskList extends React.Component {
         axios.post('/api/tasks', newTask)
             .then(res => {
                 this.fetchTasks();
-                // res.end();
             })
             .catch(err => {
                 console.log(err.stack);
             });
-
-        // newTask.task = this.state.newTask;
-        // var newState = this.state.tasks;
-        // newState.push(newTask);
-        // this.setState({
-        //     tasks: newState,
-        //     newTask: ''
-        // });
     }
 
     handleChange(e) {
@@ -187,12 +179,23 @@ class TaskList extends React.Component {
         this.checkForAlerts();
     }
 
+    completeTask(task) {
+        var id;
+        for (let i = 0; i < this.state.tasks.length; i++) {
+            var current = this.state.tasks[i];
+            if (current.task === task) {
+                id = current.task_id;
+            }
+        }
+        axios.get(`/api/tasks/${id}/toggle`);
+    }
+
     render() {
         const tasks = this.state.tasks.map(task => {
             if (!task.deleted) {
                 return (
                     <>
-                        <Task id={task.task} task={task.task} completed={task.completed} time={task.time}/>
+                        <Task onClick={this.completeTask} id={task.task} task={task.task} completed={task.completed} time={task.time}/>
                         <Delete id={task.task} onClick={this.delete}>Delete</Delete>
                     </>
                 )

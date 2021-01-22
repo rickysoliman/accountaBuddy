@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const Button = styled.button`
     background-color: ${props => props.completed ? '#CCDAD1' : '#3E92CC'};
@@ -37,10 +38,11 @@ class Task extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick() {
+    handleClick(e) {
         this.setState({
             completed: !this.state.completed
         });
+        this.props.onClick(this.state.task);
     }
 
     render() {
