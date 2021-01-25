@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 const Button = styled.button`
     background-color: ${props => props.completed ? '#CCDAD1' : '#3E92CC'};
-    border-radius: 5px;
+    border-radius: 15px;
     font-family: Arial;
     font-size: 2em;
     color: white;
@@ -38,10 +37,15 @@ class Task extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(e) {
+    componentWillReceiveProps(nextProps) {
         this.setState({
-            completed: !this.state.completed
+            task: nextProps.task,
+            completed: nextProps.completed,
+            time: nextProps.time
         });
+    }
+
+    handleClick() {
         this.props.onClick(this.state.task);
     }
 
@@ -49,9 +53,7 @@ class Task extends React.Component {
         return (
             this.state.time === null ? 
                 <Button onClick={this.handleClick} completed={this.state.completed}>{this.props.task}</Button> :
-                <>
-                    <Button onClick={this.handleClick} completed={this.state.completed}>{this.props.task}{<Time>{this.state.time}</Time>}</Button>
-                </>
+                <Button onClick={this.handleClick} completed={this.state.completed}>{this.props.task}{<Time>{this.state.time}</Time>}</Button>
         )
     }
 }

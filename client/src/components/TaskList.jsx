@@ -70,10 +70,10 @@ class TaskList extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.receiveDateAndTime = this.receiveDateAndTime.bind(this);
         this.checkForAlerts = this.checkForAlerts.bind(this);
-        this.completeTask = this.completeTask.bind(this);
+        this.toggleCompletion = this.toggleCompletion.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchTasks();
     }
 
@@ -81,8 +81,17 @@ class TaskList extends React.Component {
         axios.get('/api/tasks')
             .then(res => {
                 var data = res.data;
+                var completed = [];
+                var notCompleted = [];
+                for (let i = 0; i < data.length; i++) {
+                    data[i].completed ? completed.push(data[i]) : notCompleted.push(data[i]);
+                }
+
+                completed.sort((a,b) => a.task_id - b.task_id);
+                notCompleted.sort((a,b) => a.task_id - b.task_id);
+
                 this.setState({
-                    tasks: data
+                    tasks: notCompleted.concat(completed)
                 });
             })
             .catch(err => {
@@ -176,7 +185,7 @@ class TaskList extends React.Component {
         this.checkForAlerts();
     }
 
-    completeTask(task) {
+    toggleCompletion(task) {
         var id;
         for (let i = 0; i < this.state.tasks.length; i++) {
             var current = this.state.tasks[i];
@@ -194,15 +203,15 @@ class TaskList extends React.Component {
     }
 
     render() {
+        // console.log('\n');
         const tasks = this.state.tasks.map(task => {
-            if (!task.deleted) {
-                return (
-                    <>
-                        <Task onClick={this.completeTask} id={task.task} task={task.task} completed={task.completed} time={task.time}/>
-                        <Delete id={task.task} onClick={this.delete}>Delete</Delete>
-                    </>
-                )
-            }
+            // console.log(task);
+            return (
+                <>
+                    <Task onClick={this.toggleCompletion} id={task.task} task={task.task} completed={task.completed} time={task.time}/>
+                    <Delete id={task.task} onClick={this.delete}>Delete</Delete>
+                </>
+            )
         });
         return (
             <>
