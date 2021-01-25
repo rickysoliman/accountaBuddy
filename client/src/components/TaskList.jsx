@@ -64,6 +64,7 @@ class TaskList extends React.Component {
             time: ''
         }
 
+        this.sortByTime = this.sortByTime.bind(this);
         this.fetchTasks = this.fetchTasks.bind(this);
         this.delete = this.delete.bind(this);
         this.saveTask = this.saveTask.bind(this);
@@ -77,21 +78,21 @@ class TaskList extends React.Component {
         this.fetchTasks();
     }
 
+    sortByTime(array) {
+        array.sort((a, b) => {
+            return Date.parse('01/01/2013 ' + a.time) - Date.parse('01/01/2013 ' + b.time);
+        });
+        return array;
+    }
+
     fetchTasks() {
         axios.get('/api/tasks')
             .then(res => {
                 var data = res.data;
-                var completed = [];
-                var notCompleted = [];
-                for (let i = 0; i < data.length; i++) {
-                    data[i].completed ? completed.push(data[i]) : notCompleted.push(data[i]);
-                }
-
-                completed.sort((a,b) => a.task_id - b.task_id);
-                notCompleted.sort((a,b) => a.task_id - b.task_id);
-
+                data = this.sortByTime(data);
+                console.log(data);
                 this.setState({
-                    tasks: notCompleted.concat(completed)
+                    tasks: data
                 });
             })
             .catch(err => {
@@ -109,7 +110,14 @@ class TaskList extends React.Component {
                 break;
             }
         }
-        axios.delete(`/api/tasks/${id}/delete`);
+        console.log(id);
+        axios.delete(`/api/tasks/${id}/delete`)
+            .then(res => {
+                console.log(res.status);
+            })
+            .catch(err => {
+                console.log(err.stack);
+            });
         this.fetchTasks();
     }
 
@@ -203,9 +211,7 @@ class TaskList extends React.Component {
     }
 
     render() {
-        // console.log('\n');
         const tasks = this.state.tasks.map(task => {
-            // console.log(task);
             return (
                 <>
                     <Task onClick={this.toggleCompletion} id={task.task} task={task.task} completed={task.completed} time={task.time}/>
