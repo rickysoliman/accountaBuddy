@@ -26,9 +26,9 @@ class DateAndTime extends React.Component {
         var day = currentDate.getDate();
         var year = currentDate.getFullYear();
         var hh = currentDate.getHours();
-        var daytime = 'am';
+        var daytime = 'AM';
         if (hh >= 12) {
-            daytime = 'pm';
+            daytime = 'PM';
             if (hh > 12) {
                 hh -= 12;
             }

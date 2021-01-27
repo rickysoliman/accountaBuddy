@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Task from './Task.jsx';
 import DateAndTime from './DateAndTime.jsx';
+import Modal from './Modal.jsx';
 
 const Title = styled.h1`
     font-family: Arial;
@@ -80,7 +81,7 @@ class TaskList extends React.Component {
 
     sortByTime(array) {
         array.sort((a, b) => {
-            return Date.parse('01/01/2013 ' + a.time) - Date.parse('01/01/2013 ' + b.time);
+            return Date.parse('06/21/1992 ' + a.time) - Date.parse('06/21/1992 ' + b.time);
         });
         return array;
     }
@@ -90,7 +91,6 @@ class TaskList extends React.Component {
             .then(res => {
                 var data = res.data;
                 data = this.sortByTime(data);
-                console.log(data);
                 this.setState({
                     tasks: data
                 });
@@ -126,6 +126,7 @@ class TaskList extends React.Component {
             return;
         }
         var input = document.getElementById('input');
+        this.props.close();
         for (let i = 0; i < this.state.tasks.length; i++) {
             var task = this.state.tasks[i].task;
             var deleted = this.state.tasks[i].deleted;
@@ -174,7 +175,7 @@ class TaskList extends React.Component {
                         var currentDaytime = this.state.time.split(':')[2].slice(3);
                         var taskHour = Number(task.time.split(':')[0]);
                         var taskMinute = Number(task.time.split(':')[1].slice(0, 2));
-                        var taskDaytime = task.time.split(':')[1].slice(2);
+                        var taskDaytime = task.time.split(':')[1].slice(3);
 
                         if (currentHour === taskHour && currentMinute === taskMinute && currentDaytime === taskDaytime && currentSecond === 0) {
                             window.alert(`It's time to ${task.task}.`);
@@ -221,9 +222,8 @@ class TaskList extends React.Component {
         });
         return (
             <>
+                <Modal handleChange={this.handleChange} saveTask={this.saveTask} show={this.props.show} close={this.props.close}/>
                 <DateAndTime transferDateAndTime={this.receiveDateAndTime}/>
-                <Input onChange={this.handleChange} id="input" rows={5} placeholder="What do you need to do?"/>
-                <Button onClick={this.saveTask}>Save</Button>
                 <Title>Task List</Title>
                 <List>{tasks}</List>
             </>
