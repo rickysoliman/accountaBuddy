@@ -27,30 +27,7 @@ const Delete = styled.button`
     &:hover {
         cursor: pointer;
         border: 1px solid white;
-    }
-`;
-
-const Input = styled.textarea`
-    height: auto;
-    font-family: Arial;
-    background-color: #F4F4F4;
-    border-radius: 5px;
-    font-size: 1em;
-    box-shadow: 10px 10px 20px gray;
-    padding: 10px;
-`;
-
-const Button = styled.button`
-    border-radius: 5px;
-    width: auto;
-    height: fit-content;
-    border: 1px solid transparent;
-    background-color: #F4F4F4;
-    box-shadow: 10px 10px 20px gray;
-    z-index: 2;
-    &:hover {
-        cursor: pointer;
-        border: 1px solid white;
+        box-shadow: 10px 10px 20px gray;
     }
 `;
 
@@ -121,31 +98,22 @@ class TaskList extends React.Component {
         this.fetchTasks();
     }
 
-    saveTask() {
-        if (this.state.newTask === '') {
-            return;
-        }
-        var input = document.getElementById('input');
+    saveTask(message, time) {
         this.props.close();
+        if (message === '') {
+            return null;
+        }
         for (let i = 0; i < this.state.tasks.length; i++) {
-            var task = this.state.tasks[i].task;
-            var deleted = this.state.tasks[i].deleted;
-            if (task === this.state.newTask && !deleted) {
+            var task = this.state.tasks[i];
+            if (task.task === message) {
                 window.alert('This item is already on your list!');
-                input.value = '';
-                return;
+                return null;
             }
         }
-        var answer = window.confirm('Does this task need to be completed at a specific time?');
-        var time;
-        if (answer) {
-            time = window.prompt('What time does this task need to be completed by?');
-        }
-        input.value = '';
         var newTask = {
             completed: 0,
-            task: this.state.newTask,
-            time: time === undefined ? null : time
+            task: message,
+            time: time
         };
         axios.post('/api/tasks', newTask)
             .then(res => {
