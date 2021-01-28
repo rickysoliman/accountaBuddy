@@ -18,12 +18,13 @@ const Button = styled.button`
     background-color: white;
     color: gray;
     border-radius: 15px;
-    border: 2px solid gray;
+    border: 2px solid transparent;
     width: fit-content;
     font-size: 1em;
     &:hover {
         cursor: pointer;
         box-shadow: 10px 10px 20px gray;
+        border: 2px solid gray;
     }
 `;
 

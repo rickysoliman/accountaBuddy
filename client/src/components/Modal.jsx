@@ -5,11 +5,14 @@ const ModalBox = styled.div`
     position: fixed;
     top: 30%;
     left: 20;
-    width: fit-content;
-    height: fit-content;
+    width: 500px;
+    height: 250px;
+    border-radius: 15px;
     z-index: 3;
     text-align: center;
-    background-color: transparent;
+    background-color: white;
+    border: 2px solid black;
+    box-shadow: 10px 10px 20px gray;
 `;
 
 const Input = styled.textarea`
@@ -23,10 +26,10 @@ const Input = styled.textarea`
 `;
 
 const Button = styled.button`
-    background-color: white;
-    color: gray;
+    background-color: ${props => props.value === 'X' ? 'red' : 'white'};
+    color: ${props => props.value === 'X' ? 'white' : 'gray'};
     border-radius: 15px;
-    border: 2px solid gray;
+    border: 2px solid ${props => props.value === 'X' ? 'black' : 'gray'};
     width: fit-content;
     font-size: 1em;
     &:hover {
@@ -217,10 +220,10 @@ class Modal extends React.Component {
                             </Select>
                         </DropDowns>
                         <div class="actions">
-                            <Button onClick={this.props.close}>
+                            <Button onClick={this.props.close} value="X">
                                 X
                             </Button>
-                            <Button onClick={this.save}>Save</Button>
+                            <Button onClick={this.save} value="Save">Save</Button>
                         </div>
                     </ModalBox>
                 </>
